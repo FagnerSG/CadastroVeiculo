@@ -66,7 +66,9 @@ public class CadastroVeiculo {
           s.remove(veiculo);
           s.getTransaction().commit();
         break;
+      
       } while (op !=0);
       
-    
+    } 
+  }
 }
