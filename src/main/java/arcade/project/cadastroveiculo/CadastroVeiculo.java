@@ -7,47 +7,66 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
-import jakarta.persistence.EntityManager;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import conexao.Conexao;
 
 
 public class CadastroVeiculo {
 
-    public static void main(String[] args) {
-        Scanner scn = new Scanner(System.in);
-        Persistencia persistencia = new Persistencia();
+  public static void main(String[] args) {
+    Scanner scn = new Scanner(System.in);
+    Conexao conectar = new Conexao();
+    Persistencia persistencia = new Persistencia();
     
-    int  op = 0;
+    conectar.getConexao();
+    
+    int  opcao = 4;
     
     do {
       
       System.out.println("Menu\n");
-      System.out.println("1 - Cadastrar Veiculo" + "\n2 - Listas de Veiculos" 
-              + "\n3 - Excluir Veiculo" + "\n0 - Sair");
+      System.out.println("""
+                         1 - Cadastrar Veiculo
+                         2 - Listas de Veiculos
+                         3 - Excluir Veiculo
+                         4 - Sair""");
       
-      op = scn.nextInt();
+      opcao = scn.nextInt();
       
-      switch (op) {
-        case 1:
+      switch (opcao) {
+        case 1 -> {
           persistencia.carregarDados();
-          try {
+          
+          try {           
+              Class.forName("org.mariadb.jdbc.Driver");
               Veiculos veiculo = new Veiculos();
               veiculo.getPlaca();
               veiculo.getRenavam();
               veiculo.getAno();
-              
+
               System.out.println("Digite Placa");
-              String getPlaca = scn.next();
-              em.getTransaction().begin();
-              veiculo.setPlaca(getPlaca);
-              em.persist(p);
-              em.getTransaction().commit();
-          } catch (Exception ex){
-            em.getTransation().rollback();
-          }
-          em.close();
-        break;
+              String placa = scn.next();
+              veiculo.setPlaca(placa);
+              
+              System.out.println("\nDigite Renavam");
+              int renavam = scn.nextInt();
+              veiculo.setRenavam(renavam);
+              
+              persistencia.veiculos.add(veiculo);
+              persistencia.salvarDados();
+              //getTransaction().commit();
+              } catch (Exception ex){
+              em.getTransation().rollback();
+            }
+          break;
+         } 
           
-        case 2:
+        case 2 -> {
           List<Veiculos> listarVeiculos = s.createQuery("selecionar Veiculo", Veiculos.class).getResultList();
           
           for (Veiculos pl: listarVeiculos) {
@@ -56,19 +75,24 @@ public class CadastroVeiculo {
               System.out.println("Renavam = " +  pl.getRenavam());
             }
           }
-        break;
+          break;
+        }
         
-        case 3:
+        case 3 -> {
           s.getTransaction().begin();
           System.out.println("digite a Placa do Veiculo");
-          String placa = sc.nextLong();
-          Veiculos veiculo = s.find(Veiculos.class, ide);
+          String placa = scn.nextLine();
+          Veiculos veiculo = s.find(Veiculos.class, id);
           s.remove(veiculo);
           s.getTransaction().commit();
-        break;
+          }
+        
+        }break;
       
-      } while (op !=0);
-      
+      } while (opcao != 4);
+     
     } 
+    
   }
-}
+  
+
