@@ -18,43 +18,43 @@ public class Persistencia {
   
   public List<Veiculos> veiculos = new ArrayList<>();
   
-  public static String urlDB = "";
+  public static String urlDB = "jdbc:mariadb://localhost:3360/baseveiculos?useTimezone="
+                      + "true&serverTimezone=UTC&useBulkStmts=false";
   
   @SuppressWarnings({"ConvertToTryWithResources", "UseSpecificCatch"})
   public void carregarDados() {
-  try {
-  Path file = Paths.get(novoVeiculos);
+    try {
+       Path file = Paths.get(novoVeiculos);
   
-  if (!Files.exists(Paths.get(novoVeiculos))) {
-    Files.createFile(Paths.get(novoVeiculos));
-  } else {
-    FileInputStream fis = new FileInputStream(file.toFile());
-    ObjectInputStream ois = new ObjectInputStream(fis);
+      if (!Files.exists(Paths.get(novoVeiculos))) {
+        Files.createFile(Paths.get(novoVeiculos));
+      } else {
+            FileInputStream fis = new FileInputStream(file.toFile());
+            ObjectInputStream ois = new ObjectInputStream(fis);
     
-    veiculos = (List) ois.readObject();
+        veiculos = (List) ois.readObject();
     
-    ois.close();
-    fis.close();
-  }
-} catch (Exception e) {
-  
-}
+        ois.close();
+        fis.close();
+        }
+      } catch (Exception e) {
+    }
 }
 
   @SuppressWarnings({"ConvertToTryWithResources", "UseSpecificCatch"})
   public void salvarDados() {
-  try {
-    Path file = Paths.get(novoVeiculos);
+    try {
+      Path file = Paths.get(novoVeiculos);
     
-    FileOutputStream fos = new FileOutputStream(file.toFile());
-    ObjectOutputStream oos = new ObjectOutputStream(fos);
-    oos.writeObject(novoVeiculos);
+      FileOutputStream fos = new FileOutputStream(file.toFile());
+      ObjectOutputStream oos = new ObjectOutputStream(fos);
+      oos.writeObject(veiculos);
     
-    oos.close();
-    fos.close();
+      oos.close();
+      fos.close();
     
-  } catch (Exception e){
-    
-  }          
+      } catch (Exception e){
+
+    }          
   }
 }
