@@ -9,7 +9,11 @@ import java.util.List;
 public class Veiculos {
 
   static List<Veiculos> listar(org.mariadb.jdbc.Connection conn) {
-    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    return null;    
+  }
+
+  static Veiculos buscarPorPlaca(org.mariadb.jdbc.Connection conn, String placaAtualizar) {
+    return null;
   }
 
   
@@ -19,7 +23,7 @@ public class Veiculos {
   private int ano;
 
   Veiculos(String placa, String renavam, int ano) {
-    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
   }
 
 
